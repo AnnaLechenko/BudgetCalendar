@@ -10,9 +10,7 @@ class ProfileRepository @Inject constructor(
 
     fun getProfile()  = profileDao.getProfileData()
 
-    suspend fun insertProfileData(profile: Profile) = profileDao.insertProfileData(
-        profile
-    )
+    suspend fun insertProfileData(profile: Profile) = profileDao.insertProfileData(profile)
 
 
 }

@@ -2,6 +2,8 @@ Navigation Components
 Menu
 Hilt
 MVVM
+ContentProvider
+SharedPreferences --- настройки приложения =- вид хранения данных
 
 
 

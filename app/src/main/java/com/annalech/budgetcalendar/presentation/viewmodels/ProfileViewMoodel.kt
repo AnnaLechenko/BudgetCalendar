@@ -17,7 +17,7 @@ class ProfileViewMoodel @Inject constructor(
 
     val receivedProfileLiveData= profileRepository.getProfile()
 
-   fun insertProfileDao(profile: Profile) = viewModelScope.launch {
+   fun insertProfileData(profile: Profile) = viewModelScope.launch {
        profileRepository.insertProfileData(profile)
    }
 
