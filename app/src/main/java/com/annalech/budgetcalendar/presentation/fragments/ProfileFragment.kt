@@ -77,6 +77,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         //подключение настроек приложения
         myPref = requireContext().getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE)
 
+        if (myPref.contains(PREFERENCE_PROFILE_EXISTANCE_KEY)){
+            chahgeViewVisibilityPostRegistration()
+        }else{
+            chahgeViewVisibilityForRegistration()
+        }
+
         binding.profileImage.setOnClickListener { it ->
             takePhoto.launch("image/*")
         }
