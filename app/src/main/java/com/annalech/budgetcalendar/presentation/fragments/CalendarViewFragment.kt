@@ -31,9 +31,11 @@ class CalendarViewFragment :Fragment(R.layout.fragment_calendar_view){
         super.onViewCreated(view, savedInstanceState)
         activity?.title = "Enter Your Budget"
         binding.calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
-                val selectedDate = "${dayOfMonth}/${month+1}/${year}"
-
-
+            val selectedDate = "${dayOfMonth}/${month+1}/${year}"
+            val action =  CalendarViewFragmentDirections
+                .actionCalendarViewFragmentToBudgetEntryFragment()
+                .setSelectDate(selectedDate)
+            findNavController().navigate(action)
         }
     }
 
