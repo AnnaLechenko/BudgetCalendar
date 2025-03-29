@@ -26,6 +26,14 @@ class CalendarViewFragment :Fragment(R.layout.fragment_calendar_view){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
+        activity?.title = "Enter Your Budget"
+
+        binding.calView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+            val selectedDate = "${dayOfMonth}/${month+1}/${year}"
+
+        }
+
     }
 
 
