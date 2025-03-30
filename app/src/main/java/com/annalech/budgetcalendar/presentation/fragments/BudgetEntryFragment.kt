@@ -94,7 +94,8 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
                 } else {
                     (currentBalance + enterAmount.toFloat())
                 }
-                binding.remainingBalance.text = amount.toString()
+                remainingBalance = amount.toString()
+                binding.remainingBalance.text = remainingBalance
             }
         }
 
