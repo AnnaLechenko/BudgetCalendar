@@ -10,7 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.annalech.budgetcalendar.R
 import com.annalech.budgetcalendar.databinding.FragmentCalendarViewBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CalendarViewFragment :Fragment(R.layout.fragment_calendar_view){
 
     private var _binding: FragmentCalendarViewBinding ?= null

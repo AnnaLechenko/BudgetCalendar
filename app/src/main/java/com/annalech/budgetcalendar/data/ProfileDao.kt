@@ -16,6 +16,9 @@ interface ProfileDao {
      @Query("SELECT * FROM profile_tabl ORDER BY id DESC")
      fun getProfileData(): LiveData<List<Profile>>
 
+     @Query("UPDATE profile_tabl SET  currentBalance = :revisedBalanceFloat")
+     suspend fun updateCurrentBalance(revisedBalanceFloat: Float)
+
 
 
 }
