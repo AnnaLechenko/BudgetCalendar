@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.annalech.budgetcalendar.R
 import com.annalech.budgetcalendar.data.entiity.Budget
 import com.annalech.budgetcalendar.databinding.ItemBudgetBinding
 import com.annalech.budgetcalendar.utils.UtilityFunctions.dateMillisToString
@@ -49,6 +50,12 @@ class ReportsAdapter :RecyclerView.Adapter<ReportsAdapter.MyViewHolder> (){
                 itemBudgetBinding.budgetItemDate.text =  dateMillisToString(date.toLong())
                     itemBudgetBinding.budgetItemAmount.text = amount.toString()
                 itemBudgetBinding.budgetItemPerpose.tooltipText= purpose
+
+                if (creditOrDebit.equals("Credit")){
+                    itemBudgetBinding.budgetItemType.setImageResource(R.drawable.ic_credit)
+                } else{
+                    itemBudgetBinding.budgetItemType.setImageResource(R.drawable.ic_debit)
+                }
             }
         }
     }

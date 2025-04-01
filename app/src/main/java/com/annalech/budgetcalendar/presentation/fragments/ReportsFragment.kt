@@ -40,7 +40,14 @@ class ReportsFragment :Fragment(R.layout.fragment_reports){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializeRecyclerView()
+getAllEntries()
+    }
 
+    private fun getAllEntries() {
+        viewModelBudget.allBudgetEntriesLD.observe(viewLifecycleOwner){it->
+            adapterReports.differ.submitList(it)
+
+        }
     }
 
     private fun initializeRecyclerView() {
