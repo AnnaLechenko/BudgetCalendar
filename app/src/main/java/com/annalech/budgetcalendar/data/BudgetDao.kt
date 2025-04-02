@@ -15,5 +15,7 @@ interface BudgetDao {
     @Query("SELECT * FROM budget_tabl ORDER BY id DESC")
     fun getAllData(): LiveData<List<Budget>>
 
+    @Query("UPDATE budget_tabl SET amount =:amount, purpose = :purpose WHERE id=:id")
+    suspend fun ubdateBudget(amount:Float, purpose:String, id:Int)
 
 }

@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class ReportsFragment :Fragment(R.layout.fragment_reports){
+class ReportsFragment :Fragment(R.layout.fragment_reports), ReportsAdapter.onClickListnerChancgeBudget{
 
     private var _binding: FragmentReportsBinding ?= null
     val binding:FragmentReportsBinding
@@ -51,11 +51,17 @@ getAllEntries()
     }
 
     private fun initializeRecyclerView() {
-adapterReports = ReportsAdapter()
+adapterReports = ReportsAdapter(this )
 binding.rcvReports.apply {
     layoutManager = LinearLayoutManager(requireContext())
     adapter = adapterReports
 }
+    }
+
+    override fun onClick(position: Int) {
+        val currentBudget = adapterReports.differ.currentList[position]
+val bottomSheet = UpdateBudgetBottomSheetFragment(currentBudgetItem = currentBudget)
+        bottomSheet.show(requireActivity().supportFragmentManager,"UPDATE_BUDGET")
     }
 
 

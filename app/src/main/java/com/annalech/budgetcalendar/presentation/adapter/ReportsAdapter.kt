@@ -10,18 +10,29 @@ import com.annalech.budgetcalendar.data.entiity.Budget
 import com.annalech.budgetcalendar.databinding.ItemBudgetBinding
 import com.annalech.budgetcalendar.utils.UtilityFunctions.dateMillisToString
 
-class ReportsAdapter :RecyclerView.Adapter<ReportsAdapter.MyViewHolder> (){
+class ReportsAdapter(
+  val  listner : onClickListnerChancgeBudget
+) :RecyclerView.Adapter<ReportsAdapter.MyViewHolder> (){
 
-    class MyViewHolder(val itemBudgetBinding:ItemBudgetBinding):RecyclerView.ViewHolder(
+
+
+     inner class MyViewHolder(val itemBudgetBinding:ItemBudgetBinding):RecyclerView.ViewHolder(
         itemBudgetBinding.root
-    )
+    ){
+        init {
+            itemBudgetBinding.root.setOnLongClickListener{
+                val position = adapterPosition
+                listner.onClick(position)
+                true
+            }
+        }
+    }
 
 
     private val differCallback = object : DiffUtil.ItemCallback<Budget>(){
         override fun areItemsTheSame(oldItem: Budget, newItem: Budget): Boolean {
          return oldItem.id == newItem.id
         }
-
         override fun areContentsTheSame(oldItem: Budget, newItem: Budget): Boolean {
             return  oldItem == newItem
         }
@@ -45,10 +56,12 @@ class ReportsAdapter :RecyclerView.Adapter<ReportsAdapter.MyViewHolder> (){
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+
         with(holder){
             with(differ.currentList[position]){
+
                 itemBudgetBinding.budgetItemDate.text =  dateMillisToString(date.toLong())
-                    itemBudgetBinding.budgetItemAmount.text = amount.toString()
+                    itemBudgetBinding.budgetItemAmount.text =  amount.toString()
                 itemBudgetBinding.budgetItemPerpose.tooltipText= purpose
 
                 if (creditOrDebit.equals("Credit")){
@@ -60,5 +73,9 @@ class ReportsAdapter :RecyclerView.Adapter<ReportsAdapter.MyViewHolder> (){
         }
     }
 
+
+    interface onClickListnerChancgeBudget{
+        fun onClick(position: Int)
+    }
 
 }
