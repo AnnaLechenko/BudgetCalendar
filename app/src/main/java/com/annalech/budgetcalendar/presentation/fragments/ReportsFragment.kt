@@ -45,7 +45,7 @@ class ReportsFragment : Fragment(R.layout.fragment_reports),
         initializeRecyclerView()
 
         //удаление бюджета свайпом
-        val itemTouchCallback= object : ItemTouchHelper.SimpleCallback(
+        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         ) {
@@ -63,8 +63,8 @@ class ReportsFragment : Fragment(R.layout.fragment_reports),
                 viewModelBudget.deleteBudgetEntry(budget)
 
                 //вывод окна об успехе операции с вариантом отмены
-                Snackbar.make(view,"Успешно удалено",Snackbar.LENGTH_SHORT ).apply {
-                    setAction("Отменить удаление"){
+                Snackbar.make(view, "Успешно удалено", Snackbar.LENGTH_SHORT).apply {
+                    setAction("Отменить удаление") {
                         viewModelBudget.insertBudget(budget)
                     }
                     show()
@@ -78,6 +78,11 @@ class ReportsFragment : Fragment(R.layout.fragment_reports),
             attachToRecyclerView(binding.rcvReports)
         }
 
+        //показ статистики в другом фрагменте - окне
+        binding.statistics.setOnClickListener{
+            val fragment = StaticsBottomSheetFragment()
+            fragment.show(requireActivity().supportFragmentManager, "BottomSheetFragment")
+        }
         getAllEntries()
     }
 

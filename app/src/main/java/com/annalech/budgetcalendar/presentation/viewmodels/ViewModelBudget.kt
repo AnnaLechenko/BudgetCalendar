@@ -14,6 +14,8 @@ class ViewModelBudget @Inject constructor(
 ) :ViewModel(){
 
     val allBudgetEntriesLD = budgetRepository.getAllBudgetEntries()
+    val totalCredit = budgetRepository.getTotalCredit()
+    val  totalDebitSpending  = budgetRepository.getTotalDebitSpending()
 
     fun insertBudget(budget: Budget) = viewModelScope.launch {
         budgetRepository.insertBudget(budget)
@@ -30,4 +32,6 @@ class ViewModelBudget @Inject constructor(
     fun deleteBudgetEntry(budget: Budget) = viewModelScope.launch {
         budgetRepository.deleteEntry(budget)
     }
+
+
 }
