@@ -77,13 +77,12 @@ class ReportsFragment : Fragment(R.layout.fragment_reports),
         ItemTouchHelper(itemTouchCallback).apply {
             attachToRecyclerView(binding.rcvReports)
         }
-
+        getAllEntries()
         //показ статистики в другом фрагменте - окне
         binding.statistics.setOnClickListener{
             val fragment = StaticsBottomSheetFragment()
             fragment.show(requireActivity().supportFragmentManager, "BottomSheetFragment")
         }
-        getAllEntries()
     }
 
     private fun getAllEntries() {
