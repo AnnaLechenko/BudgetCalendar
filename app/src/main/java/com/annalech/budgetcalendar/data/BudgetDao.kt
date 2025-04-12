@@ -1,6 +1,7 @@
 package com.annalech.budgetcalendar.data
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -17,5 +18,10 @@ interface BudgetDao {
 
     @Query("UPDATE budget_tabl SET amount =:amount, purpose = :purpose WHERE id=:id")
     suspend fun ubdateBudget(amount:Float, purpose:String, id:Int)
+
+    @Delete
+    suspend fun deleteEntry(budget: Budget)
+
+
 
 }
