@@ -17,15 +17,15 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class ReportsFragment :Fragment(R.layout.fragment_reports), ReportsAdapter.onClickListnerChancgeBudget{
+class ReportsFragment : Fragment(R.layout.fragment_reports),
+    ReportsAdapter.onClickListnerChancgeBudget {
 
-    private var _binding: FragmentReportsBinding ?= null
-    val binding:FragmentReportsBinding
-        get() = _binding ?: throw  RuntimeException(" FragmentReportsBinding is null")
+    private var _binding: FragmentReportsBinding? = null
+    val binding: FragmentReportsBinding
+        get() = _binding ?: throw RuntimeException(" FragmentReportsBinding is null")
 
     private val viewModelBudget: ViewModelBudget by viewModels()
-    private lateinit var adapterReports : ReportsAdapter
-
+    private lateinit var adapterReports: ReportsAdapter
 
 
     override fun onCreateView(
@@ -33,35 +33,35 @@ class ReportsFragment :Fragment(R.layout.fragment_reports), ReportsAdapter.onCli
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentReportsBinding.inflate(inflater, container , false)
+        _binding = FragmentReportsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializeRecyclerView()
-getAllEntries()
+        getAllEntries()
     }
 
     private fun getAllEntries() {
-        viewModelBudget.allBudgetEntriesLD.observe(viewLifecycleOwner){it->
+        viewModelBudget.allBudgetEntriesLD.observe(viewLifecycleOwner) { it ->
             adapterReports.differ.submitList(it)
 
         }
     }
 
     private fun initializeRecyclerView() {
-adapterReports = ReportsAdapter(this )
-binding.rcvReports.apply {
-    layoutManager = LinearLayoutManager(requireContext())
-    adapter = adapterReports
-}
+        adapterReports = ReportsAdapter(this)
+        binding.rcvReports.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = adapterReports
+        }
     }
 
     override fun onClick(position: Int) {
         val currentBudget = adapterReports.differ.currentList[position]
-val bottomSheet = UpdateBudgetBottomSheetFragment(currentBudgetItem = currentBudget)
-        bottomSheet.show(requireActivity().supportFragmentManager,"UPDATE_BUDGET")
+        val bottomSheet = UpdateBudgetBottomSheetFragment(currentBudgetItem = currentBudget)
+        bottomSheet.show(requireActivity().supportFragmentManager, "UPDATE_BUDGET")
     }
 
 

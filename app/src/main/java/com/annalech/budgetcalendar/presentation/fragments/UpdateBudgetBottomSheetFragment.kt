@@ -48,6 +48,7 @@ class UpdateBudgetBottomSheetFragment(
             val updateAmount = binding.updateAmount.text.toString()
             val updatePur = binding.updatePerpose.text.toString()
             val id = currentBudgetItem.id ?: 0
+
             viewModelBudget.updateBudget(
                 updateAmount.toFloat(),
                 updatePur,
