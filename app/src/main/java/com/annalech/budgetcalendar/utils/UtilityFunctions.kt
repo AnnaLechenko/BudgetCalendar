@@ -19,4 +19,11 @@ object UtilityFunctions {
         return  dataFormat.format(cal.time)
     }
 
+
+
+    fun getEndDate(daysToCount:Int):String{
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DAY_OF_YEAR,-daysToCount)
+        return dateMillisToString(cal.timeInMillis)
+    }
 }

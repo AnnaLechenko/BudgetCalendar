@@ -1,9 +1,12 @@
 package com.annalech.budgetcalendar.presentation.fragments
 
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -15,6 +18,9 @@ import com.annalech.budgetcalendar.databinding.FragmentCalendarViewBinding
 import com.annalech.budgetcalendar.databinding.FragmentReportsBinding
 import com.annalech.budgetcalendar.presentation.adapter.ReportsAdapter
 import com.annalech.budgetcalendar.presentation.viewmodels.ViewModelBudget
+import com.annalech.budgetcalendar.utils.UtilityFunctions
+import com.annalech.budgetcalendar.utils.UtilityFunctions.dateMillisToString
+import com.annalech.budgetcalendar.utils.UtilityFunctions.getEndDate
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,6 +35,10 @@ class ReportsFragment : Fragment(R.layout.fragment_reports),
 
     private val viewModelBudget: ViewModelBudget by viewModels()
     private lateinit var adapterReports: ReportsAdapter
+    private val dateRangeArray = arrayOf(
+        "Select Date Range", "1 Week", "1 Month", "6 Month", "1 Year", "Show All"
+    )
+    private lateinit var startDate: String
 
 
     override fun onCreateView(
@@ -42,7 +52,11 @@ class ReportsFragment : Fragment(R.layout.fragment_reports),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.title = "Spending Reports"
+        startDate = setStartDate()
         initializeRecyclerView()
+        setSpinnerValuesDate()
+
 
         //удаление бюджета свайпом
         val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(
@@ -77,12 +91,63 @@ class ReportsFragment : Fragment(R.layout.fragment_reports),
         ItemTouchHelper(itemTouchCallback).apply {
             attachToRecyclerView(binding.rcvReports)
         }
+
         getAllEntries()
+
         //показ статистики в другом фрагменте - окне
-        binding.statistics.setOnClickListener{
+        binding.statistics.setOnClickListener {
             val fragment = StaticsBottomSheetFragment()
             fragment.show(requireActivity().supportFragmentManager, "BottomSheetFragment")
         }
+
+        //показ отчета за промежуток времени
+        binding.dateRangeReportSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    when (parent?.getItemAtPosition(position)) {
+                        "1 Week" -> getReportsBetweenDates(startDate, getEndDate(7) )
+                        "1 Month" -> getReportsBetweenDates(startDate, getEndDate(30) )
+                        "6 Month"->getReportsBetweenDates(startDate, getEndDate(180) )
+                        "1 Year" -> getReportsBetweenDates(startDate, getEndDate(365))
+                        "Show All" -> getAllEntries()
+
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    TODO("Not yet implemented")
+                }
+
+            }
+    }
+
+    //получает значение бюджета за промежуток времени и устанавливает в адаптер этот список
+    private fun getReportsBetweenDates(startDate: String, endDate: String) {
+        val start = UtilityFunctions.dateStringToMillis(endDate)
+        val end = UtilityFunctions.dateStringToMillis(startDate)
+        viewModelBudget.getBudgetBetweenDate(start, end)
+        viewModelBudget.budgetEntriesBetweenDate.observe(viewLifecycleOwner){
+            it->
+            adapterReports.differ.submitList(it)
+        }
+    }
+
+
+    private fun setSpinnerValuesDate() {
+        val arrayAdapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, dateRangeArray)
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.dateRangeReportSpinner.adapter = arrayAdapter
+    }
+
+    private fun setStartDate(): String {
+        val dateInMillis = Calendar.getInstance().timeInMillis
+        return dateMillisToString(dateInMillis)
     }
 
     private fun getAllEntries() {

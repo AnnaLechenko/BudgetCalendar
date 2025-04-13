@@ -20,4 +20,10 @@ class BudgetRepository @Inject constructor(
 
     fun getTotalCredit() = budgetDao.getTotalCredit()
     fun getTotalDebitSpending() = budgetDao.getTotalSpending()
+
+
+    suspend fun getBudgetEntriesBetweenDates(startDate:Long, endDate:Long) =
+        budgetDao.getReportsBetweennDates(startDate,endDate)
+
+
 }
