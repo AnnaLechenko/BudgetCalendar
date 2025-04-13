@@ -9,15 +9,38 @@
     android:id="@+id/bottomSheet">
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/materialTextView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/totalCredit"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/totalCredit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="£100.02"
+        android:textSize="20dp"
+        app:layout_constraintStart_toEndOf="@+id/materialTextView3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/materialTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Total Spending : "
+        android:text="@string/totalSpending"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/materialTextView3" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/totalSpending"
@@ -28,29 +51,8 @@
         android:text="£100.02"
         android:textSize="20dp"
         app:layout_constraintStart_toEndOf="@+id/materialTextView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/totalCredit" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/materialTextView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Total Credit : "
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialTextView" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/totalCredit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="£100.02"
-        android:textSize="20dp"
-        app:layout_constraintStart_toEndOf="@+id/materialTextView"
-        app:layout_constraintTop_toBottomOf="@+id/totalSpending" />
 
 
 

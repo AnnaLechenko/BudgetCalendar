@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BudgetCalendar</string>
+    <string name="totalSpending">Расходы :</string>
+    <string name="totalCredit">Доходы :</string>
 </resources>
