@@ -91,8 +91,8 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
                 if (enterAmount.isNotEmpty()) {
                     val changeBalance =  when(debitOrCredid){
                         "Расход" ->{ (currentBalance - enterAmount.toFloat())}
-                        "Доход"->{ (currentBalance +enterAmount.toFloat())}
-                        else -> 0.0
+                        else->{ (currentBalance +enterAmount.toFloat())}
+
                     }
 
                     remainingBalance = changeBalance.toString()
@@ -117,7 +117,7 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
                 bankName,
                 debitOrCredid,
                 amount,
-                purpose = purpose,
+                purpose,
                 date,
                 revisedCurrentBalannce
             )

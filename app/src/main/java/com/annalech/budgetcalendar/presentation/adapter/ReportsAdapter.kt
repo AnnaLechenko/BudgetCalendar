@@ -13,7 +13,7 @@ import com.annalech.budgetcalendar.utils.UtilityFunctions.dateMillisToString
 class ReportsAdapter(
   val  listner : onClickListnerChancgeBudget
 ) :RecyclerView.Adapter<ReportsAdapter.MyViewHolder> (){
-
+        private val CREDIT = "0"
 
 
      inner class MyViewHolder(val itemBudgetBinding:ItemBudgetBinding):RecyclerView.ViewHolder(
@@ -62,9 +62,9 @@ class ReportsAdapter(
 
                 itemBudgetBinding.budgetItemDate.text =  dateMillisToString(date.toLong())
                     itemBudgetBinding.budgetItemAmount.text =  amount.toString()
-                itemBudgetBinding.budgetItemPerpose.tooltipText= purpose
+                itemBudgetBinding.budgetItemPerpose.text = purpose.toString()
 
-                if (creditOrDebit.equals("Credit")){
+                if (creditOrDebit.equals(CREDIT)){
                     itemBudgetBinding.budgetItemType.setImageResource(R.drawable.ic_credit)
                 } else{
                     itemBudgetBinding.budgetItemType.setImageResource(R.drawable.ic_debit)

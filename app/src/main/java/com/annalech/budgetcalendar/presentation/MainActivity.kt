@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        checkProfileData()
 
         //add navigation
         val navHostFragment =
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.bottomNavBar.setupWithNavController(navigateController)
-        checkProfileData()
+
 
     }
 
@@ -57,7 +58,6 @@ class MainActivity : AppCompatActivity() {
             if (it.isEmpty()){
                 navigateController.navigate(R.id.action_global_profileFragment)
             }
-
         }
     }
 }
