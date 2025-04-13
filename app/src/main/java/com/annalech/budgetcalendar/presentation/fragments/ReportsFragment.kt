@@ -36,7 +36,7 @@ class ReportsFragment : Fragment(R.layout.fragment_reports),
     private val viewModelBudget: ViewModelBudget by viewModels()
     private lateinit var adapterReports: ReportsAdapter
     private val dateRangeArray = arrayOf(
-        "Select Date Range", "1 Week", "1 Month", "6 Month", "1 Year", "Show All"
+        "Выбрать период", "1 Неделя", "1 Месяц", "6 Месяцев", "1 Год", "Весь период"
     )
     private lateinit var startDate: String
 
@@ -52,7 +52,7 @@ class ReportsFragment : Fragment(R.layout.fragment_reports),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.title = "Spending Reports"
+        activity?.title = "Отчёт расходов"
         startDate = setStartDate()
         initializeRecyclerView()
         setSpinnerValuesDate()
@@ -110,11 +110,11 @@ class ReportsFragment : Fragment(R.layout.fragment_reports),
                     id: Long
                 ) {
                     when (parent?.getItemAtPosition(position)) {
-                        "1 Week" -> getReportsBetweenDates(startDate, getEndDate(7) )
-                        "1 Month" -> getReportsBetweenDates(startDate, getEndDate(30) )
-                        "6 Month"->getReportsBetweenDates(startDate, getEndDate(180) )
-                        "1 Year" -> getReportsBetweenDates(startDate, getEndDate(365))
-                        "Show All" -> getAllEntries()
+                        "1 Неделя" -> getReportsBetweenDates(startDate, getEndDate(7) )
+                        "1 Месяц" -> getReportsBetweenDates(startDate, getEndDate(30) )
+                        "6 Месяцев"->getReportsBetweenDates(startDate, getEndDate(180) )
+                        "1 Год" -> getReportsBetweenDates(startDate, getEndDate(365))
+                        "Весь период" -> getAllEntries()
 
                     }
                 }

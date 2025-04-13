@@ -31,7 +31,7 @@ class CalendarViewFragment :Fragment(R.layout.fragment_calendar_view){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.title = "Enter Your Budget"
+        activity?.title = "Введите ваш бюджет"
         binding.calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
             val selectedDate = "${dayOfMonth}/${month+1}/${year}"
             val action =  CalendarViewFragmentDirections

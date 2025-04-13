@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Select the date"
+        android:text="@string/Select_the_date"
         android:textSize="20dp"
         android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"

@@ -2,4 +2,8 @@
     <string name="app_name">BudgetCalendar</string>
     <string name="totalSpending">Расходы :</string>
     <string name="totalCredit">Доходы :</string>
+    <string name="show_statistics">Посмотреть отчёт</string>
+    <string name="Select_the_date">Выбери дату</string>
+    <string name="Profile">Профиль</string>
+    <string name="submit_entry">Сохранить</string>
 </resources>

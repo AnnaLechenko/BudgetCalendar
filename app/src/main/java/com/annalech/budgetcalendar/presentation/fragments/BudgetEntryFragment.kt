@@ -144,7 +144,7 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
         )
 
         viewMoodelProfile.updateCurrentBudget(revisedBalance = revisedCurrentBalannce.toFloat())
-        Snackbar.make(binding.budgetEntryConstraint,"Entry added", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(binding.budgetEntryConstraint,"Сохранено", Snackbar.LENGTH_SHORT).show()
         findNavController().navigate(R.id.action_budgetEntryFragment_to_calendarViewFragment)
 
     }
