@@ -54,7 +54,6 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
         //взаимодействие с списком банков
         getProfileDate()
         setSpinnerForDebitOrCredit()
-
         binding.bankSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -79,11 +78,9 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
                     id: Long
                 ) {
                     debitOrCredid = parent?.getItemIdAtPosition(position).toString()
-                    updateRemainingBalance()
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    debitOrCredid = "Доход"
-                    updateRemainingBalance()
+                    debitOrCredid = "Расход"
                 }
             }
 
@@ -92,7 +89,13 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
             it?.let {
                 val enterAmount = it.toString()
                 if (enterAmount.isNotEmpty()) {
-                    updateRemainingBalance()
+                    val temp = if (debitOrCredid.equals("Расход")) {
+                        (currentBalance - enterAmount.toFloat())
+                    } else {
+                        (currentBalance + enterAmount.toFloat())
+                    }
+                    remainingBalance = temp.toString()
+                    binding.remainingBalance.text = remainingBalance
                 } else {
                     remainingBalance = currentBalance.toString()
                     binding.remainingBalance.text = remainingBalance
@@ -104,7 +107,7 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
         binding.submitBudgetEntry.setOnClickListener { it ->
             val amount = binding.editAmount.text.toString()
             val purpose = binding.editPurpose.text.toString()
-             val currentDate = args.selectDate?: "01/01/2025"
+            val currentDate = args.selectDate?: "01/01/2025"
             val date = dateStringToMillis(currentDate).toString()
             val revisedCurrentBalannce = remainingBalance
 
@@ -117,25 +120,6 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
                 revisedCurrentBalannce
             )
         }
-
-
-    }
-
-    private fun updateRemainingBalance() {
-        val enterAmount = binding.editAmount.text.toString()
-        if (enterAmount.isNotEmpty()) {
-            val amount = enterAmount.toFloat()
-
-            // Логика: если выбран "Доход", то добавляем сумму, если "Расход" — вычитаем
-            currentBalance = when (debitOrCredid) {
-                "Доход" -> (currentBalance + amount)  // Если Доход, увеличиваем
-                "Расход" -> (currentBalance - amount) // Если Расход, уменьшаем
-                else -> currentBalance// Если значение не выбрано, оставляем текущий баланс
-            }
-
-        }
-            remainingBalance = currentBalance.toString()
-            binding.remainingBalance.text = remainingBalance
 
 
     }
@@ -185,12 +169,12 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
             val bankNames = ArrayList<String>()
             bankNames.add(it[0].bankName)
             currentBalance = it[0].currentBalance
-            remainingBalance = currentBalance.toString()
-            binding.remainingBalance.text = remainingBalance
+            binding.remainingBalance.text = it[0].currentBalance.toString()
 
             //добавление в сспиннер инфы
             val arrayAdapter =
                 ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, bankNames)
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.bankSpinner.adapter = arrayAdapter
 
         }
