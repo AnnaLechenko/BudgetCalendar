@@ -48,7 +48,7 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.title = "Enter budget for: ${args.selectDate}"
+        activity?.title = "Введите изменения счёта ${args.selectDate}"
 
 
         //взаимодействие с списком банков
@@ -79,9 +79,8 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
                 ) {
                     debitOrCredid = parent?.getItemIdAtPosition(position).toString()
                 }
-
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    debitOrCredid = "Debit"
+                    debitOrCredid = "Расход"
                 }
             }
 
@@ -89,13 +88,18 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
         binding.editAmount.addTextChangedListener { it ->
             it?.let {
                 val enterAmount = it.toString()
-                val amount = if (debitOrCredid.equals("Debit")) {
-                    (currentBalance - enterAmount.toFloat())
+                if (enterAmount.isNotEmpty()) {
+                    val temp = if (debitOrCredid.equals("Расход")) {
+                        (currentBalance - enterAmount.toFloat())
+                    } else {
+                        (currentBalance + enterAmount.toFloat())
+                    }
+                    remainingBalance = temp.toString()
+                    binding.remainingBalance.text = remainingBalance
                 } else {
-                    (currentBalance + enterAmount.toFloat())
+                    remainingBalance = currentBalance.toString()
+                    binding.remainingBalance.text = remainingBalance
                 }
-                remainingBalance = amount.toString()
-                binding.remainingBalance.text = remainingBalance
             }
         }
 
@@ -111,7 +115,7 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
                 bankName,
                 debitOrCredid,
                 amount,
-                purpose,
+                purpose = purpose,
                 date,
                 revisedCurrentBalannce
             )
@@ -128,10 +132,11 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
         date: String,
         revisedCurrentBalannce: String
     ) {
-        var amoountToInsert = amount.toFloat()
-        if (debitOrCredid.equals("Debit")) {
-            amoountToInsert = -1 * amoountToInsert
+        var amoountToInsert = amount.toFloatOrNull() ?: 0f
+        if (debitOrCredid.equals("Расход")) {
+            amoountToInsert = -amoountToInsert
         }
+        val creditOrDebit = debitOrCredid
 
         viewModelBudget.insertBudget(
             Budget(
@@ -139,7 +144,7 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
                 bankName = bankName,
                 amount = amoountToInsert,
                 purpose = purpose,
-                creditOrDebit = debitOrCredid
+                creditOrDebit = creditOrDebit
             )
         )
 
@@ -152,8 +157,8 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
 
     private fun setSpinnerForDebitOrCredit() {
         val listDebitOrCredit = ArrayList<String>()
-        listDebitOrCredit.add("Debit")
-        listDebitOrCredit.add("Credit")
+        listDebitOrCredit.add("Доход")
+        listDebitOrCredit.add("Расход")
         val adapterSpinner =
             ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, listDebitOrCredit)
         binding.debitCreditSpinner.adapter = adapterSpinner
@@ -169,6 +174,7 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
             //добавление в сспиннер инфы
             val arrayAdapter =
                 ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, bankNames)
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.bankSpinner.adapter = arrayAdapter
 
         }
