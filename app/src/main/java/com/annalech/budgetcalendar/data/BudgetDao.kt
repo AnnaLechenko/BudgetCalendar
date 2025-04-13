@@ -22,10 +22,10 @@ interface BudgetDao {
     @Delete
     suspend fun deleteEntry(budget: Budget)
 
-    @Query("SELECT  IFNULL(SUM(amount), 0) FROM budget_tabl WHERE creditOrDebit = '1'")
+    @Query("SELECT  IFNULL(SUM(amount), 0) FROM budget_tabl WHERE creditOrDebit = '0'")
     fun getTotalCredit():LiveData<Float>
 
-    @Query("SELECT   IFNULL(SUM(amount), 0)  FROM budget_tabl WHERE creditOrDebit = '0'")
+    @Query("SELECT   IFNULL(SUM(amount), 0)  FROM budget_tabl WHERE creditOrDebit = '1'")
     fun getTotalSpending():LiveData<Float>
 
     @Query("SELECT * FROM budget_tabl WHERE date BETWEEN :startDate AND :endDate ORDER BY date DESC")
