@@ -80,23 +80,25 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
                     debitOrCredid = parent?.getItemIdAtPosition(position).toString()
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    debitOrCredid = "Расход"
+                    debitOrCredid = "Доход"
                 }
             }
 
         //вывод оставшейся суммы
         binding.editAmount.addTextChangedListener { it ->
-            it?.let {
+            it.let {
                 val enterAmount = it.toString()
                 if (enterAmount.isNotEmpty()) {
-                    val temp = if (debitOrCredid.equals("Расход")) {
-                        (currentBalance - enterAmount.toFloat())
-                    } else {
-                        (currentBalance + enterAmount.toFloat())
+                    val changeBalance =  when(debitOrCredid){
+                        "Расход" ->{ (currentBalance - enterAmount.toFloat())}
+                        "Доход"->{ (currentBalance +enterAmount.toFloat())}
+                        else -> 0.0
                     }
-                    remainingBalance = temp.toString()
+
+                    remainingBalance = changeBalance.toString()
                     binding.remainingBalance.text = remainingBalance
-                } else {
+                }
+                else {
                     remainingBalance = currentBalance.toString()
                     binding.remainingBalance.text = remainingBalance
                 }
@@ -159,8 +161,10 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
         val listDebitOrCredit = ArrayList<String>()
         listDebitOrCredit.add("Доход")
         listDebitOrCredit.add("Расход")
+
         val adapterSpinner =
             ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, listDebitOrCredit)
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.debitCreditSpinner.adapter = adapterSpinner
     }
 
