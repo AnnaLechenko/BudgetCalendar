@@ -164,7 +164,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
         // Проверяем, инициализирована ли переменная uri
         if (!::uri.isInitialized) {
-            // Можно показать Toast, чтобы уведомить пользователя, или обработать это как-то иначе
             Toast.makeText(requireContext(), "Пожалуйста, выберите изображение профиля", Toast.LENGTH_SHORT).show()
             return
         }
@@ -236,8 +235,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         binding.updateCurrentBalance.visibility = View.VISIBLE
         binding.updateCurrentBalance.isEnabled = true
         binding.submitProfile.visibility = View.GONE
-
-  //      binding.inputBankName.visibility = View.GONE
         binding.inputInitialBalance.visibility = View.GONE
 
 
