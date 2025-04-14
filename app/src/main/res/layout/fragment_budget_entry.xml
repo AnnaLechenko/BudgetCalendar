@@ -104,6 +104,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
+        android:enabled="false"
         android:background="@drawable/btn_back"
         android:text="@string/submit_entry"
         android:textColor="@color/white"

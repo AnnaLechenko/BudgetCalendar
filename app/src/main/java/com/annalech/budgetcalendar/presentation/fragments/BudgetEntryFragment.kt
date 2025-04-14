@@ -100,6 +100,7 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
                     }
                     remainingBalance = changeBalance.toString()
                     binding.remainingBalance.text = remainingBalance
+                    binding.submitBudgetEntry.isEnabled = true
                 }
                 else {
                     remainingBalance = currentBalance.toString()
@@ -110,11 +111,14 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
 
 
         binding.submitBudgetEntry.setOnClickListener { it ->
+
             val amount = binding.editAmount.text.toString()
             val purpose = binding.editPurpose.text.toString()
             val currentDate = args.selectDate?: "01/01/2025"
             val date = dateStringToMillis(currentDate).toString()
             val revisedCurrentBalannce = remainingBalance
+
+
 
             submitBudgetEntryToDB(
                 bankName,
