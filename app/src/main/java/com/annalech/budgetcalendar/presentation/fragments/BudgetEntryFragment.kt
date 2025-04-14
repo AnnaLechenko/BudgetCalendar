@@ -1,6 +1,8 @@
 package com.annalech.budgetcalendar.presentation.fragments
 
 import android.os.Bundle
+import android.os.Debug
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -90,11 +92,12 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
                 val enterAmount = it.toString()
                 if (enterAmount.isNotEmpty()) {
                     val changeBalance =  when(debitOrCredid){
-                        "Расход" ->{ (currentBalance - enterAmount.toFloat())}
-                        else->{ (currentBalance +enterAmount.toFloat())}
-
+                        CREDIT ->{
+                            (currentBalance - enterAmount.toFloat())}
+                        DEBIT->{
+                            (currentBalance +enterAmount.toFloat())}
+                        else ->{currentBalance}
                     }
-
                     remainingBalance = changeBalance.toString()
                     binding.remainingBalance.text = remainingBalance
                 }
@@ -186,4 +189,9 @@ class BudgetEntryFragment : Fragment(R.layout.fragment_budget_entry) {
     }
 
 
+    companion object{
+        //position in spinner DebitOrCredit
+        private const val DEBIT = "0"
+        private const val CREDIT = "1"
+    }
 }
