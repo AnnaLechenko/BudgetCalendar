@@ -50,7 +50,14 @@ class MainActivity : AppCompatActivity() {
 
     //обработка пунктов меню
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return item.onNavDestinationSelected(navigateController) || super.onOptionsItemSelected(item)
+        when(item.itemId){
+            R.id.profileFragmetn->{
+                navigateController.navigate(R.id.action_global_profileFragment)
+                return true
+            }
+            else -> { return item.onNavDestinationSelected(navigateController) || super.onOptionsItemSelected(item)}
+        }
+
     }
 
     private fun checkProfileData() {

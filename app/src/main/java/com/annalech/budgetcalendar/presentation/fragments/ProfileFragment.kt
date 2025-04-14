@@ -48,6 +48,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private lateinit var bitmap: Bitmap
     private lateinit var myPref:SharedPreferences
 
+
     //content provider
     //обработчик выбора изображений
     private val takePhoto =
@@ -89,7 +90,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
         viewModel.receivedProfileLiveData.observe(viewLifecycleOwner){listProfile->
             listProfile?.let { list->
-                if (list.size >=1 ){
+                if (list.isNotEmpty()){
                     viewLifecycleOwner.lifecycleScope.launch {
 
                         val listOfImage = loadImageFromInternalStorage()
@@ -102,12 +103,16 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                             }
                         }
 
+
+
                         binding.inputBankName.setText(list[0].bankName)
                         binding.inputInitialBalance.setText(list[0].initialBalance.toString())
                         binding.inputCurrentBalance.setText(list[0].currentBalance.toString())
                         binding.profileName.setText(list[0].name)
                         binding.profileEmail.setText(list[0].email)
                         binding.materialCheckBox.isChecked = list[0].primaryBank
+
+                        chahgeViewVisibilityPostRegistration()
                     }
                 }else{
                     Toast.makeText(
@@ -132,6 +137,16 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 binding.materialCheckBox.isChecked,
             )
         }
+
+        binding.updateCurrentBalance.setOnClickListener {
+            submitData(
+                binding.profileName.text.toString(),
+                binding.profileEmail.text.toString(),
+                binding.inputBankName.text.toString(),
+               binding.inputCurrentBalance.text.toString(),
+                binding.materialCheckBox.isChecked,
+            )
+        }
     }
 
 
@@ -147,6 +162,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                            initialBal: String,
                            checked: Boolean) {
 
+        // Проверяем, инициализирована ли переменная uri
+        if (!::uri.isInitialized) {
+            // Можно показать Toast, чтобы уведомить пользователя, или обработать это как-то иначе
+            Toast.makeText(requireContext(), "Пожалуйста, выберите изображение профиля", Toast.LENGTH_SHORT).show()
+            return
+        }
         viewModel.insertProfileData(
             Profile(
                 name = profileName,
@@ -204,12 +225,22 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         binding.submitProfile.visibility = View.VISIBLE
         binding.updateCurrentBalance.visibility = View.GONE
         binding.balanceLayout.visibility = View.GONE
+        binding.updateCurrentBalance.visibility = View.GONE
     }
 
     private fun chahgeViewVisibilityPostRegistration() {
-        binding.submitProfile.visibility = View.GONE
+
         binding.updateCurrentBalance.visibility = View.VISIBLE
         binding.balanceLayout.visibility = View.VISIBLE
+
+        binding.updateCurrentBalance.visibility = View.VISIBLE
+        binding.updateCurrentBalance.isEnabled = true
+        binding.submitProfile.visibility = View.GONE
+
+  //      binding.inputBankName.visibility = View.GONE
+        binding.inputInitialBalance.visibility = View.GONE
+
+
     }
 
 
