@@ -12,13 +12,16 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewMoodel @Inject constructor(
     val profileRepository: ProfileRepository
-):ViewModel(){
+) : ViewModel() {
 
 
-    val receivedProfileLiveData= profileRepository.getProfile()
+    val receivedProfileLiveData = profileRepository.getProfile()
 
-   fun insertProfileData(profile: Profile) = viewModelScope.launch {
-       profileRepository.insertProfileData(profile)
-   }
+    fun insertProfileData(profile: Profile) = viewModelScope.launch {
+        profileRepository.insertProfileData(profile)
+    }
 
+    fun updateCurrentBudget(revisedBalance: Float) = viewModelScope.launch {
+        profileRepository.updateCurrentBalance(revisedBalance)
+    }
 }

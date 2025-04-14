@@ -1,6 +1,7 @@
 package com.annalech.budgetcalendar.data
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -15,5 +16,19 @@ interface BudgetDao {
     @Query("SELECT * FROM budget_tabl ORDER BY id DESC")
     fun getAllData(): LiveData<List<Budget>>
 
+    @Query("UPDATE budget_tabl SET amount =:amount, purpose = :purpose WHERE id=:id")
+    suspend fun ubdateBudget(amount:Float, purpose:String, id:Int)
+
+    @Delete
+    suspend fun deleteEntry(budget: Budget)
+
+    @Query("SELECT  IFNULL(SUM(amount), 0) FROM budget_tabl WHERE creditOrDebit = '0'")
+    fun getTotalCredit():LiveData<Float>
+
+    @Query("SELECT   IFNULL(SUM(amount), 0)  FROM budget_tabl WHERE creditOrDebit = '1'")
+    fun getTotalSpending():LiveData<Float>
+
+    @Query("SELECT * FROM budget_tabl WHERE date BETWEEN :startDate AND :endDate ORDER BY date DESC")
+    suspend fun getReportsBetweennDates(startDate:Long,endDate:Long):List<Budget>
 
 }
