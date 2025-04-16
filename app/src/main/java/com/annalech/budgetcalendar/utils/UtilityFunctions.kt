@@ -28,7 +28,5 @@ object UtilityFunctions {
         return dateMillisToString(cal.timeInMillis)
     }
 
-    fun log(mess:String){
-        Log.d("TestAny",mess)
-    }
+   
 }
